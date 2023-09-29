@@ -1,0 +1,268 @@
+﻿@model SOL_WILFREDO_VALVERDE.Models.View.ModelMatricula
+@{
+    ViewBag.Title = "Matricula";
+}
+
+<body>
+
+    <div class="row align-items-end">
+        <div class="col-sm-2">
+            <div class="mb-2">
+                <label class="form-label">DNI Estudiante:</label>
+                <input class="form-control" type="text" id="txtDni" name="txtDni" />
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="mb-2">
+                <button id="btnBuscar" type="button" class="btn btn-primary">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-end">
+        <div class="col-sm-1">
+            <div class="mb-2">
+                <label class="form-label">Nombre Estudiante</label>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="mb-2">
+                <input type="text" class="form-control" disabled id="txtCodEstudiante" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="mb-2">
+                <input type="text" class="form-control" disabled id="txtNombreEstudiante" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-end">
+        <div class="col-sm-1">
+            <div class="mb-2">
+                <label class="form-label">Fecha Matricula:</label>
+                <input class="form-control" disabled type="text" id="txtFechaMatricula" name="txtFechaMatricula" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-end">
+        <div class="col-sm-1">
+            <div class="mb-2">
+                <label class="form-label">Tipo de Matricula:</label>
+                @*<select id="cboTipomatricula" class="form-select">
+                    <option value="0">Seleccione</option>
+                    <option value="1">Presencial</option>
+                    <option value="2">Remoto</option>
+                </select>*@
+
+                @Html.DropDownList("cboTipomatricula", new SelectList(ViewBag.ListaModalidad, "id_modalidad", "nombre", ""), new { @class = "form-select" })                
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Vacantes Disponibles</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" id="btnMatricula" class="btn btn-success">Registrar Matrícula</button>
+                </div>
+            </div>
+
+            <hr />
+
+            <table id="tabla" class="display cell-border" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th>Curso</th>
+                        <th>Créditos</th>
+                        <th>Sección</th>
+                        <th>Vacantes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+
+@section scripts{
+
+    <script>
+
+
+        var urlController = "@Url.Action("Matricula","Home")";
+        var tabladata;
+
+        $(document).ready(function () {
+
+            $("#txtFechaMatricula").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
+
+        })
+
+        $("#btnMatricula").on("click", function () {
+
+            var valor = validaciones();
+                if (valor == 0) {
+
+                    let dt = $('#tabla').DataTable();
+                    let checkeds = dt.data().toArray().filter((data) => data.checked);                    
+                    if (checkeds.length > 0) {
+
+                        for (var i = 0; i < checkeds.length; i++) {
+                            var dato = checkeds[i];
+                            if (dato.cantidad_vacante <= 0) {
+                                alert("El curso " + dato.nombrecurso + ", en la sección " + dato.nombreseccion + " no tiene vacantes");
+                            }
+                        }                        
+                                console.log(checkeds);
+                                var request = new FormData();                                
+                                request.append("objeto", JSON.stringify(checkeds))
+                                request.append("id_alumno", $("#txtCodEstudiante").val())
+                                request.append("id_modalidad", $("#cboTipomatricula").val())
+
+                                jQuery.ajax({
+                                    url: '@Url.Action("GuardarMatricula", "Home")',
+                                    type: "POST",
+                                    data: request,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (data) {
+
+                                        
+                                        if (data.operacionExitosa)
+                                            alert("Se registró la matricula correctamente");
+                                        else
+                                            alert(data.mensaje);
+                                        
+                                        window.location.replace(urlController);
+                                    }
+                                });
+                            /*}*/
+                        /*}*/
+                    } else { alert("Debes seleccionar al menos una vacante") }
+
+
+                } else {
+                    alert("Ingrese todos los campos");
+                }
+
+            })
+
+
+        $("#btnBuscar").on("click", function () {
+
+                var pdni = $("#txtDni").val();
+
+                jQuery.ajax({
+                url: '@Url.Action("BuscarNombre", "Home")',
+                type: "POST",
+                data: JSON.stringify({ dni: pdni}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.IdAlumno == 0)
+                            alert("No se encontró DNI del alumno")
+                        else {
+                            $("#txtNombreEstudiante").val(data.Nombre);
+                            $("#txtCodEstudiante").val(data.IdAlumno);
+                        }
+                }
+                })
+            })
+
+
+        let $dt = $('#tabla');
+            let dt = $dt.DataTable({
+            responsive: true,
+            ordering: false,
+            search:false,
+            "ajax": {
+                url: '@Url.Action("ListarVacantes", "Home")',
+                type: "POST",
+                dataType: "json"
+            },
+            "columns": [{
+                render: function (data, type, full, meta) {                                        
+                    if (full.id_curso > 0)
+                        return "<input type='checkbox'" + (full.checked ? ' checked' : '') + "/>";
+                    else
+                        return "<input type='checkbox' disabled" + (full.checked ? ' checked' : '') + "/>";
+                    
+                }, orderable: false
+                },
+                { "data": "nombrecurso" },
+                { "data": "creditos" },
+                { "data": "nombreseccion" },
+                { "data": "cantidad_vacante" }
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            }
+            });
+
+        dt.on('change', 'thead input', function (evt) {
+            let checked = this.checked;
+            let total = 0;
+            let data = [];
+
+            dt.data().each(function (info) {
+
+                info.checked = checked;
+                data.push(info);
+            });
+
+            dt.clear()
+                .rows.add(data)
+                .draw();
+        });
+
+        $dt.on('change', 'tbody input', function () {
+            let info = dt.row($(this).closest('tr')).data();
+            info.checked = this.checked;            
+        });
+
+        jQuery.ajax({
+        url: '@Url.Action("BuscarNombre", "Home")',
+        type: "POST",
+        data: JSON.stringify({ dni: dni}),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#txtNombreEstudiante").val(data.Nombre);
+                $("#txtCodEstudiante").val(data.IdAlumno);
+        }
+        })
+
+        function validaciones() {
+
+            var valor = 0;
+
+            if ($("#txtCodEstudiante").val() == 0) {
+                valor = 1;
+            }
+            else if ($("#cboTipomatricula").val() == 0) {
+                valor = 1;
+            }
+
+            return valor;
+        }
+
+    </script>
+
+
+
+
+}

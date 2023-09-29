@@ -1,0 +1,118 @@
+﻿@model List<SOL_WILFREDO_VALVERDE.Models.View.VistaMatricula>
+@{
+    ViewBag.Title = "Matricula";
+}
+
+<h1 class="mt-4">Matriculas</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">UPC</li>
+</ol>
+
+@*<div class="row">
+    <div class="col-12">
+        <button type="button" id="btnAnular" class="btn btn-success">Anular Matrícula</button>
+    </div>
+</div>*@
+
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-tags me-1"></i>
+        Reporte de Matriculas
+    </div>
+    <div class="card-body">
+      
+        <hr />
+        <div class="row">
+
+            <div class="col-sm-12">
+                <table id="tabla" class="table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Seleccionar</th>
+                            <th>Id Matricula</th>
+                            <th>Código Alumno</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Id Curso</th>
+                            <th>Descripción Curso</th>
+                            <th>Créditos</th>
+                            <th>Nombre Sección</th>
+                            <th>Tipo matricula</th>
+                            <th>Fecha Matricula</th>
+                            <th>Fecha Anulación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var oElemento in Model)
+                        {
+                            <tr>
+                                <td>@Html.CheckBox("isActive", false)</td>
+                                <td>@oElemento.id_matricula</td>
+                                <td>@oElemento.id_alumno</td>
+                                <td>@oElemento.nombres</td>
+                                <td>@oElemento.apellidos</td>
+                                <td>@oElemento.id_curso</td>
+                                <td>@oElemento.nombrecurso</td>
+                                <td>@oElemento.creditos</td>
+                                <td>@oElemento.seccion</td>
+                                <td>@oElemento.modalidad</td>
+                                <td>@oElemento.fecha_matricula</td>
+                                <td>@oElemento.fecha_anulacion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script>
+
+
+        //var tabladata;
+        //let $dt = $('#tabla');
+
+        $(document).ready(function () {
+
+            
+
+            //let dt = $('#tabla').DataTable();
+            //$dt.on('change', 'tbody input', function () {
+            //    let info = dt.row($(this).closest('tr')).data();
+            //    info.checked = this.checked;
+            //    console.log(info);
+            //});
+
+
+        })
+
+        //$("#btnAnular").on("click", function () {
+
+            
+        //        let dt = $('#tabla').DataTable();
+        //        let checkeds = dt.data().toArray().filter((data) => data.checked);
+        //        console.log(checkeds);
+
+            
+
+        // })
+
+
+
+
+
+    </script>
+
+
+
+
+}

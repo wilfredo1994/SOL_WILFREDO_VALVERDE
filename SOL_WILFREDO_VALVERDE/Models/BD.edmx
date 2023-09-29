@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ALUMNO">
+          <Key>
+            <PropertyRef Name="ID_ALUMNO" />
+          </Key>
+          <Property Name="ID_ALUMNO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="DNI" Type="varchar2" MaxLength="15" />
+          <Property Name="NOMBRES" Type="varchar2" MaxLength="100" />
+          <Property Name="APELLIDOS" Type="varchar2" MaxLength="100" />
+          <Property Name="ESTADO" Type="number" Precision="1" Scale="0" />
+        </EntityType>
+        <EntityType Name="CURSO">
+          <Key>
+            <PropertyRef Name="ID_CURSO" />
+          </Key>
+          <Property Name="ID_CURSO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar2" MaxLength="50" />
+          <Property Name="CREDITOS" Type="number" Precision="38" Scale="0" />
+          <Property Name="ESTADO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="MATRICULA">
+          <Key>
+            <PropertyRef Name="ID_MATRICULA" />
+          </Key>
+          <Property Name="ID_MATRICULA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_ALUMNO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_MODALIDAD" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_VACANTE" Type="number" Precision="38" Scale="0" />
+          <Property Name="FECHA_MATRICULA" Type="char" MaxLength="20" />
+          <Property Name="FECHA_ANULACION" Type="char" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="MODALIDAD">
+          <Key>
+            <PropertyRef Name="ID_MODALIDAD" />
+          </Key>
+          <Property Name="ID_MODALIDAD" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar2" MaxLength="50" />
+          <Property Name="ESTADO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SECCION">
+          <Key>
+            <PropertyRef Name="ID_SECCION" />
+          </Key>
+          <Property Name="ID_SECCION" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar2" MaxLength="50" />
+          <Property Name="ESTADO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TODOITEM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
+          <Property Name="CREATION_TS" Type="timestamp with time zone" Precision="6" />
+          <Property Name="DONE" Type="number" Precision="1" Scale="0" />
+        </EntityType>
+        <EntityType Name="VACANTE">
+          <Key>
+            <PropertyRef Name="ID_VACANTE" />
+          </Key>
+          <Property Name="ID_VACANTE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_CURSO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_SECCION" Type="number" Precision="38" Scale="0" />
+          <Property Name="CANTIDAD_VACANTE" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="ALUMNO" EntityType="Self.ALUMNO" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="CURSO" EntityType="Self.CURSO" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="MATRICULA" EntityType="Self.MATRICULA" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="MODALIDAD" EntityType="Self.MODALIDAD" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="SECCION" EntityType="Self.SECCION" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="TODOITEM" EntityType="Self.TODOITEM" Schema="MATRICULA" store:Type="Tables" />
+          <EntitySet Name="VACANTE" EntityType="Self.VACANTE" Schema="MATRICULA" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ALUMNO">
+          <Key>
+            <PropertyRef Name="ID_ALUMNO" />
+          </Key>
+          <Property Name="ID_ALUMNO" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="DNI" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRES" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDOS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Int16" />
+        </EntityType>
+        <EntityType Name="CURSO">
+          <Key>
+            <PropertyRef Name="ID_CURSO" />
+          </Key>
+          <Property Name="ID_CURSO" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREDITOS" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ESTADO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="MODALIDAD">
+          <Key>
+            <PropertyRef Name="ID_MODALIDAD" />
+          </Key>
+          <Property Name="ID_MODALIDAD" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SECCION">
+          <Key>
+            <PropertyRef Name="ID_SECCION" />
+          </Key>
+          <Property Name="ID_SECCION" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TODOITEM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="38" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_TS" Type="DateTimeOffset" Precision="9" />
+          <Property Name="DONE" Type="Int16" />
+        </EntityType>
+        <EntityType Name="VACANTE">
+          <Key>
+            <PropertyRef Name="ID_VACANTE" />
+          </Key>
+          <Property Name="ID_VACANTE" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_CURSO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_SECCION" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CANTIDAD_VACANTE" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ALUMNO" EntityType="Self.ALUMNO" />
+          <EntitySet Name="CURSO" EntityType="Self.CURSO" />
+          <EntitySet Name="MODALIDAD" EntityType="Self.MODALIDAD" />
+          <EntitySet Name="SECCION" EntityType="Self.SECCION" />
+          <EntitySet Name="TODOITEM" EntityType="Self.TODOITEM" />
+          <EntitySet Name="VACANTE" EntityType="Self.VACANTE" />
+          <EntitySet Name="MATRICULA" EntityType="Model.MATRICULA" />
+        </EntityContainer>
+        <EntityType Name="MATRICULA">
+          <Key>
+            <PropertyRef Name="ID_MATRICULA" />
+          </Key>
+          <Property Name="ID_MATRICULA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_ALUMNO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_MODALIDAD" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_VACANTE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHA_MATRICULA" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="FECHA_ANULACION" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="ALUMNO">
+            <EntityTypeMapping TypeName="Model.ALUMNO">
+              <MappingFragment StoreEntitySet="ALUMNO">
+                <ScalarProperty Name="ID_ALUMNO" ColumnName="ID_ALUMNO" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CURSO">
+            <EntityTypeMapping TypeName="Model.CURSO">
+              <MappingFragment StoreEntitySet="CURSO">
+                <ScalarProperty Name="ID_CURSO" ColumnName="ID_CURSO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CREDITOS" ColumnName="CREDITOS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MODALIDAD">
+            <EntityTypeMapping TypeName="Model.MODALIDAD">
+              <MappingFragment StoreEntitySet="MODALIDAD">
+                <ScalarProperty Name="ID_MODALIDAD" ColumnName="ID_MODALIDAD" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SECCION">
+            <EntityTypeMapping TypeName="Model.SECCION">
+              <MappingFragment StoreEntitySet="SECCION">
+                <ScalarProperty Name="ID_SECCION" ColumnName="ID_SECCION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TODOITEM">
+            <EntityTypeMapping TypeName="Model.TODOITEM">
+              <MappingFragment StoreEntitySet="TODOITEM">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CREATION_TS" ColumnName="CREATION_TS" />
+                <ScalarProperty Name="DONE" ColumnName="DONE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VACANTE">
+            <EntityTypeMapping TypeName="Model.VACANTE">
+              <MappingFragment StoreEntitySet="VACANTE">
+                <ScalarProperty Name="ID_VACANTE" ColumnName="ID_VACANTE" />
+                <ScalarProperty Name="ID_CURSO" ColumnName="ID_CURSO" />
+                <ScalarProperty Name="ID_SECCION" ColumnName="ID_SECCION" />
+                <ScalarProperty Name="CANTIDAD_VACANTE" ColumnName="CANTIDAD_VACANTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MATRICULA">
+            <EntityTypeMapping TypeName="Model.MATRICULA">
+              <MappingFragment StoreEntitySet="MATRICULA">
+                <ScalarProperty Name="FECHA_ANULACION" ColumnName="FECHA_ANULACION" />
+                <ScalarProperty Name="FECHA_MATRICULA" ColumnName="FECHA_MATRICULA" />
+                <ScalarProperty Name="ID_VACANTE" ColumnName="ID_VACANTE" />
+                <ScalarProperty Name="ID_MODALIDAD" ColumnName="ID_MODALIDAD" />
+                <ScalarProperty Name="ID_ALUMNO" ColumnName="ID_ALUMNO" />
+                <ScalarProperty Name="ID_MATRICULA" ColumnName="ID_MATRICULA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
